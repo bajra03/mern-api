@@ -1,4 +1,4 @@
-exports.getBlog = (req, res, next) => {
+exports.getBlogs = (req, res, next) => {
   res.json(
     {
       message: 'Get all blog success',
@@ -17,7 +17,7 @@ exports.getBlog = (req, res, next) => {
 exports.createBlog = (req, res, next) => {
   res.json(
     {
-      message: "Blog has been saved",
+      message: "Blog has been created",
       data: {
         id: 1,
         title: 'Test Blog',

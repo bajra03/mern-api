@@ -1,8 +1,11 @@
 const express = require('express');
-
+const cors = require('cors');
 const app = express();
-const blogRoutes = require('./src/routes/blogs');
 
+app.use(cors());
+app.use(express.urlencoded({ extended: true }));
+
+const blogRoutes = require('./src/routes/blogs');
 
 app.use('/', blogRoutes);
 
