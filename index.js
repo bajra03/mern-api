@@ -1,10 +1,9 @@
 const express = require('express');
 
 const app = express();
+const blogRoutes = require('./src/routes/blogs');
 
-app.use(() => {
-  console.log("Server running!");
-  console.log("log 3");
-})
+
+app.use('/', blogRoutes);
 
 app.listen(4000);
