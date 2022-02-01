@@ -14,6 +14,18 @@ app.use(cors())
 app.use('/v1/blog', blogRoutes)
 app.use('/v1/auth', authRoutes)
 
+// Create handling global error
+app.use((error, req, res, next) => {
+  const status = error.errorStatus || 500;
+  const message = error.message;
+  const data = error.data;
+
+  res.status(status).json({
+    message: message,
+    data: data
+  })
+})
+
 app.listen(port, () => {
   console.log("Server running on port: ", port)
 });

@@ -1,7 +1,18 @@
+const { validationResult } = require('express-validator')
+
 exports.createBlogPost = (req, res, next) => {
   const title = req.body.title
   // const image = req.body.image
   const content = req.body.content
+  const errors = validationResult(req)
+
+  if (!errors.isEmpty()) {
+    const err = new Error('Input values not valid');
+    err.errorStatus = 400;
+    err.data = errors.array();
+
+    throw err;
+  }
 
   const result = {
     message: "Blog Post created.",
@@ -19,9 +30,7 @@ exports.createBlogPost = (req, res, next) => {
   }
 
   res.status(201).json(result)
-  res.status(400).json({
-    message: "Error, there is problem in your data."
-  })
+
 }
 
 exports.getBlogsPost = (req, res, next) => {
