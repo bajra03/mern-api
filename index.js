@@ -1,14 +1,15 @@
-const express = require('express');
-const cors = require('cors');
-const app = express();
+const express = require('express')
+const app = express()
+const cors = require('cors')
+const port = 4000
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
+app.use(express.json()) // for parsing application/json
 
-app.use(cors());
+const blogRoutes = require('./src/routes/blogs')
 
-const blogRoutes = require('./src/routes/blogs');
+app.use('/', blogRoutes)
 
-app.use('/', blogRoutes);
-
-app.listen(4000);
+app.listen(port, () => {
+  console.log("Server running on port: ", port)
+});
