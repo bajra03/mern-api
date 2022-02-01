@@ -8,6 +8,7 @@ app.use(express.json()) // for parsing application/json
 
 const blogRoutes = require('./src/routes/blogs')
 
+app.use(cors())
 app.use('/', blogRoutes)
 
 app.listen(port, () => {
