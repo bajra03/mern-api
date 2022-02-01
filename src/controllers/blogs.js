@@ -15,15 +15,16 @@ exports.getBlogs = (req, res, next) => {
 }
 
 exports.createBlog = (req, res, next) => {
-  res.json(
-    {
-      message: "Blog has been created",
-      data: {
-        id: 1,
-        title: 'Test Blog',
-        author: 'Bajra'
-      }
-    }
-  );
+  console.log('request: ', req.body);
+  // res.json(
+  //   {
+  //     message: "Blog has been created",
+  //     data: {
+  //       id: 1,
+  //       title: 'Test Blog',
+  //       author: 'Bajra'
+  //     }
+  //   }
+  // );
   next();
 }
