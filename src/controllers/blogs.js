@@ -1,35 +1,50 @@
-const { validationResult } = require('express-validator')
+const { validationResult } = require('express-validator');
+const BlogPost = require('../models/blogs');
 
 exports.createBlogPost = (req, res, next) => {
-  const title = req.body.title
-  // const image = req.body.image
-  const content = req.body.content
   const errors = validationResult(req)
 
+  // check if data error/not valid
   if (!errors.isEmpty()) {
-    const err = new Error('Input values not valid');
+    const err = new Error('Input values not valid.');
     err.errorStatus = 400;
     err.data = errors.array();
 
     throw err;
   }
 
-  const result = {
-    message: "Blog Post created.",
-    data: {
-      post_id: 1,
-      title: title,
-      image: "postimage.jpg",
-      content: content,
-      created_at: "01/02/2022", 
-      author: {
-        uid: 1,
-        name: "Bajra",
-      }
-    }
+  // check image upload/not
+  if (!req.file) {
+    const err = new Error('Image must be uploaded!');
+    err.errorStatus = 422;
+    throw err;
   }
 
-  res.status(201).json(result)
+  const title = req.body.title;
+  const image = req.file.path; // only request the url path from request
+  const content = req.body.content;
+
+  const Post = new BlogPost({
+    title: title,
+    content: content,
+    image: image,
+    author: {
+      uid: 1,
+      name: 'Bajra'
+    }
+  });
+
+  Post.save()
+    .then(result => {    
+      res.status(201).json({
+        message: "Blog created",
+        data: result
+      });
+    })
+    .catch(err => {
+      console.log('Error: ', err);
+    });
+
 
 }
 

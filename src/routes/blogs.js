@@ -5,7 +5,7 @@ const {body} = require('express-validator')
 const blogsController = require('../controllers/blogs')
 
 // Get all blog
-router.get('/blog', blogsController.getBlogsPost)
+router.get('/post', blogsController.getBlogsPost)
 
 // Create new blog
 router.post(
