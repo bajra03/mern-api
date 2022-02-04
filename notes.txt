@@ -1,0 +1,3 @@
+MongoDB Details
+username: bajra
+password: F4fSkhTzfisdBsvn
