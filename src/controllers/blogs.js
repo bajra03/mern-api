@@ -2,14 +2,13 @@ const { validationResult } = require('express-validator');
 const BlogPost = require('../models/blogs');
 
 exports.createBlogPost = (req, res, next) => {
-  const errors = validationResult(req)
+  const errors = validationResult(req);
 
   // check if data error/not valid
   if (!errors.isEmpty()) {
     const err = new Error('Input values not valid.');
     err.errorStatus = 400;
     err.data = errors.array();
-
     throw err;
   }
 
@@ -22,11 +21,11 @@ exports.createBlogPost = (req, res, next) => {
 
   const title = req.body.title;
   const image = req.file.path; // only request the url path from request
-  const content = req.body.content;
+  const body = req.body.body;
 
-  const Post = new BlogPost({
+  const Posting = new BlogPost({
     title: title,
-    content: content,
+    body: body,
     image: image,
     author: {
       uid: 1,
@@ -34,7 +33,7 @@ exports.createBlogPost = (req, res, next) => {
     }
   });
 
-  Post.save()
+  Posting.save()
     .then(result => {    
       res.status(201).json({
         message: "Blog created",
@@ -44,8 +43,7 @@ exports.createBlogPost = (req, res, next) => {
     .catch(err => {
       console.log('Error: ', err);
     });
-
-
+  
 }
 
 exports.getBlogsPost = (req, res, next) => {
