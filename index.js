@@ -18,7 +18,7 @@ app.use('/v1/blog', blogRoutes);
 app.use('/v1/auth', authRoutes);
 
 // Set destinations image where to store
-const fileStorage = multer({
+const fileStorage = multer.diskStorage({
   destination: (req, file, callback) => {
     callback(null, 'images');
   },
@@ -30,18 +30,20 @@ const fileStorage = multer({
 // Create filter to upload
 const fileFilter = (req, file, callback) => {
   if (file.mimetype === 'image/png' ||
-    file.mimetype === 'image/jpg' ||
-    file.mimetype === 'image/jpeg') {
+      file.mimetype === 'image/jpg' ||
+      file.mimetype === 'image/jpeg') {
     callback(null, true);
   } else {
     callback(null, false);
   }
 }
 
-app.use(multer({
-  storage: fileStorage,
-  fileFilter: fileFilter
-}).single('iamge'));
+app.use(multer(
+  {
+    storage: fileStorage,
+    fileFilter: fileFilter
+  }
+).single('iamge'));
 
 // Create handling global error
 app.use((error, req, res, next) => {
