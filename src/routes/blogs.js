@@ -15,6 +15,6 @@ router.post(
     body('body').isLength({ min: 5 }).withMessage('Body content minimal 5 character')
   ],
   blogsController.createBlogPost
-)
+);
 
 module.exports = router;

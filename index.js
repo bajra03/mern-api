@@ -4,6 +4,7 @@ const cors = require('cors');
 const port = 4000;
 const mongoose = require('mongoose');
 const multer = require('multer');
+const path = require('path');
 
 app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 app.use(express.json()); // for parsing application/json
@@ -33,6 +34,8 @@ const fileFilter = (req, file, callback) => {
   }
 }
 
+
+
 app.use(multer(
   {
     storage: fileStorage,
@@ -45,6 +48,9 @@ app.use(cors());
 // API Endpoint
 app.use('/v1/blog', blogRoutes);
 app.use('/v1/auth', authRoutes);
+
+// Get Image URL
+app.use('/images', express.static(path.join(__dirname, 'images')));
 
 // Create handling global error
 app.use((error, req, res, next) => {

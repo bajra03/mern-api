@@ -47,9 +47,16 @@ exports.createBlogPost = (req, res, next) => {
 }
 
 exports.getBlogsPost = (req, res, next) => {
-  res.json(
-    {
-      message: "Get all blog success"
-    }
-  )
+  BlogPost.find()
+    .then(
+      result => {
+        res.status(200).json({
+          message: 'Blog Post has been set',
+          data: result
+        })
+      }
+    )
+    .catch(err => {
+      next(err)
+    });
 }
