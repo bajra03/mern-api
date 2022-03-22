@@ -2,6 +2,7 @@ const { validationResult } = require('express-validator');
 const BlogPost = require('../models/blogs');
 const path = require('path');
 const fs = require('fs'); // File System
+const { totalmem } = require('os');
 
 // create Post
 exports.createBlogPost = (req, res, next) => {
@@ -51,18 +52,44 @@ exports.createBlogPost = (req, res, next) => {
 
 // Get all posts
 exports.getBlogsPost = (req, res, next) => {
+  const currentPage = req.query.page || 1; // set default value to 1 if not set
+  const perPage = req.query.perPage || 5; // set default value to 5 if not set
+  let totalPosts;
+  const sortOptions = { title: -1 }
+
   BlogPost.find()
-    .then(
-      result => {
-        res.status(200).json({
-          message: 'Blog Post has been set',
-          data: result
-        })
-      }
-    )
+    .sort(sortOptions)
+    .countDocuments()
+    .then(count => {
+      totalPosts = count;
+      return BlogPost.find()
+        .skip((currentPage - 1) * perPage) // skip post that will listed
+        .limit(perPage); // limit the post that will shown
+    })
+    .then(result => {
+      res.status(200).json({
+        message: 'Blog Post has been set',
+        data: result,
+        current_page: currentPage,
+        per_page: perPage,
+        total_post: totalPosts,
+      })
+    })
     .catch(err => {
-      next(err)
+      next(err);
     });
+
+  // BlogPost.find()
+  //   .then(result => {
+  //       res.status(200).json({
+  //         message: 'Blog Post has been set',
+  //         data: result
+  //       })
+  //     }
+  //   )
+  //   .catch(err => {
+  //     next(err)
+  //   });
 }
 
 // Get post by ID
