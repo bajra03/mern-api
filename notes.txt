@@ -1,3 +1,14 @@
 MongoDB Details
 username: bajra
 password: F4fSkhTzfisdBsvn
+
+
+// Blog Posts
+(GET) http://localhost:4000/v1/blog/post
+(GET) http://localhost:4000/v1/blog/post/postId
+(POST) http://localhost:4000/v1/blog/post
+(PUT/UPDATE) http://localhost:4000/v1/blog/post/postId
+(DELETE) http://localhost:4000/v1/blog/post/postId
+
+// Images
+(GET) http://localhost:4000/images/imageName
