@@ -62,17 +62,17 @@ exports.getBlogsPost = (req, res, next) => {
     .then(count => {
       totalPosts = count;
       return BlogPost.find()
-        .skip((currentPage - 1) * perPage) // skip post that will listed
-        .limit(perPage) // limit the post that will shown
+        .skip((parseInt(currentPage) - 1) * parseInt(perPage)) // skip post that will listed
+        .limit(parseInt(perPage)) // limit the post that will shown
         .sort(sortOptions) // sort the result ASC/DESC
     })
     .then(result => {
       res.status(200).json({
         message: 'Blog Post has been set',
         data: result,
-        current_page: currentPage,
-        per_page: perPage,
-        total_post: totalPosts,
+        current_page: parseInt(currentPage),
+        per_page: parseInt(perPage),
+        total_post: parseInt(totalPosts),
       })
     })
     .catch(err => {
