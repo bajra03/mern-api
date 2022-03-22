@@ -55,16 +55,16 @@ exports.getBlogsPost = (req, res, next) => {
   const currentPage = req.query.page || 1; // set default value to 1 if not set
   const perPage = req.query.perPage || 5; // set default value to 5 if not set
   let totalPosts;
-  const sortOptions = { title: -1 }
+  const sortOptions = { createdAt: -1 }; // set the sort options by what and by ASC/DESC
 
   BlogPost.find()
-    .sort(sortOptions)
     .countDocuments()
     .then(count => {
       totalPosts = count;
       return BlogPost.find()
         .skip((currentPage - 1) * perPage) // skip post that will listed
-        .limit(perPage); // limit the post that will shown
+        .limit(perPage) // limit the post that will shown
+        .sort(sortOptions) // sort the result ASC/DESC
     })
     .then(result => {
       res.status(200).json({
