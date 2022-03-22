@@ -13,13 +13,17 @@ app.use(express.json()); // for parsing application/json
 const blogRoutes = require('./src/routes/blogs');
 const authRoutes = require('./src/routes/auth');
 
+// Create API Endpoint
+app.use('/v1/blog', blogRoutes);
+app.use('/v1/auth', authRoutes);
+
 // Set destinations image where to store
 const fileStorage = multer.diskStorage({
   destination: (req, file, callback) => {
-    callback(null, 'images');
+    callback(null, 'images'); // store to folder images in the root folder
   },
   filename: (req, file, callback) => {
-    callback(null, new Date().getTime() + '-' + file.originalname);
+    callback(null, new Date().getTime() + '-' + file.originalname); // set the image name 
   }
 });
 
@@ -34,8 +38,6 @@ const fileFilter = (req, file, callback) => {
   }
 }
 
-
-
 app.use(multer(
   {
     storage: fileStorage,
@@ -44,10 +46,6 @@ app.use(multer(
 ).single('image'));
 
 app.use(cors());
-
-// API Endpoint
-app.use('/v1/blog', blogRoutes);
-app.use('/v1/auth', authRoutes);
 
 // Get Image URL
 app.use('/images', express.static(path.join(__dirname, 'images')));
@@ -72,3 +70,4 @@ mongoose.connect('mongodb+srv://bajra:F4fSkhTzfisdBsvn@cluster0.neezo.mongodb.ne
     });
   })
   .catch(err => console.log(err));
+

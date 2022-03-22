@@ -2,7 +2,6 @@ const { validationResult } = require('express-validator');
 const BlogPost = require('../models/blogs');
 const path = require('path');
 const fs = require('fs'); // File System
-const { totalmem } = require('os');
 
 // create Post
 exports.createBlogPost = (req, res, next) => {
@@ -50,7 +49,7 @@ exports.createBlogPost = (req, res, next) => {
   
 }
 
-// Get all posts
+// Read/Get all posts
 exports.getBlogsPost = (req, res, next) => {
   const currentPage = req.query.page || 1; // set default value to 1 if not set
   const perPage = req.query.perPage || 5; // set default value to 5 if not set
