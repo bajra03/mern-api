@@ -72,7 +72,7 @@ exports.getBlogsPost = (req, res, next) => {
         current_page: parseInt(currentPage),
         per_page: parseInt(perPage),
         total_post: parseInt(totalPosts),
-      })
+      });
     })
     .catch(err => {
       next(err);
@@ -105,10 +105,10 @@ exports.getBlogPostById = (req, res, next) => {
       res.status(200).json({
         message: 'Get Post by id success',
         data: result
-      })
+      });
     })
     .catch(err => {
-      next(err)
+      next(err);
     })
 }
 
