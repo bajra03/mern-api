@@ -6,6 +6,8 @@ const mongoose = require('mongoose');
 const multer = require('multer');
 const path = require('path');
 
+app.use(cors());
+
 app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 app.use(express.json()); // for parsing application/json
 
@@ -44,8 +46,6 @@ app.use(multer(
     fileFilter: fileFilter
   }
 ).single('image'));
-
-app.use(cors());
 
 // Get Image URL
 app.use('/images', express.static(path.join(__dirname, 'images')));
