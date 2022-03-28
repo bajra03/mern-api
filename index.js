@@ -6,23 +6,10 @@ const mongoose = require('mongoose');
 const multer = require('multer');
 const path = require('path');
 
-app.use(cors());
-
-app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
-app.use(express.json()); // for parsing application/json
-
-// Routes
-const blogRoutes = require('./src/routes/blogs');
-const authRoutes = require('./src/routes/auth');
-
-// Create API Endpoint
-app.use('/v1/blog', blogRoutes);
-app.use('/v1/auth', authRoutes);
-
 // Set destinations image where to store
 const fileStorage = multer.diskStorage({
   destination: (req, file, callback) => {
-    callback(null, 'images'); // store to folder images in the root folder
+    callback(null, './public/uploads'); // store to folder images in the root folder
   },
   filename: (req, file, callback) => {
     callback(null, new Date().getTime() + '-' + file.originalname); // set the image name 
@@ -40,15 +27,26 @@ const fileFilter = (req, file, callback) => {
   }
 }
 
-app.use(multer(
-  {
-    storage: fileStorage,
-    fileFilter: fileFilter
-  }
-).single('image'));
+app.use(multer({
+  storage: fileStorage,
+  fileFilter: fileFilter
+  
+}).single('image'));
 
 // Get Image URL
-app.use('/images', express.static(path.join(__dirname, 'images')));
+app.use('/file', express.static(path.join(__dirname, 'public/uploads')));
+
+app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
+app.use(express.json()); // for parsing application/json
+app.use(cors());
+
+// Routes
+const blogRoutes = require('./src/routes/blogs');
+const authRoutes = require('./src/routes/auth');
+
+// Create API Endpoint
+app.use('/v1/blog', blogRoutes);
+app.use('/v1/auth', authRoutes);
 
 // Create handling global error
 app.use((error, req, res, next) => {

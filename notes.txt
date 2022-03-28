@@ -10,5 +10,5 @@ password: F4fSkhTzfisdBsvn
 (PUT/UPDATE) http://localhost:4000/v1/blog/post/postId
 (DELETE) http://localhost:4000/v1/blog/post/postId
 
-// Images
-(GET) http://localhost:4000/images/imageName
+// Images / file
+(GET) http://localhost:4000/file/filename
