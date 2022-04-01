@@ -6,6 +6,9 @@ const mongoose = require('mongoose');
 const multer = require('multer');
 const path = require('path');
 
+
+app.use(cors()); // handle the CORS access from outside
+
 // Set destinations image where to store
 const fileStorage = multer.diskStorage({
   destination: (req, file, callback) => {
@@ -31,14 +34,13 @@ app.use(multer({
   storage: fileStorage,
   fileFilter: fileFilter
   
-}).single('image'));
+}).single('image')); // image is based on body form name
 
-// Get Image URL
-app.use('/file', express.static(path.join(__dirname, 'public/uploads')));
+// set the URL for content uploads
+app.use('/public/uploads', express.static(path.join(__dirname, 'public/uploads')));
 
 app.use(express.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 app.use(express.json()); // for parsing application/json
-app.use(cors());
 
 // Routes
 const blogRoutes = require('./src/routes/blogs');
